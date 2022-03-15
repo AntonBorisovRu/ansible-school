@@ -1,0 +1,24 @@
+---
+- name: Remove apache and close http port
+  hosts: webservers
+  remote_user: ansible
+
+  tasks:
+    - name: Delete index.html file
+      file:
+        path: /var/www/html/index.html
+        state: absent
+    - name: Close http port
+      firewalld:
+        service: http
+        permanent: yes
+        state: disabled
+    - name: Restart firewalld service
+      service:
+        name: firewalld
+        state: restarted
+    - name: Uninstall apache
+      yum: 
+        name: httpd
+        state: removed
+...
