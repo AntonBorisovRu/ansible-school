@@ -13,10 +13,7 @@
         service: http
         permanent: yes
         state: disabled
-    - name: Restart firewalld service
-      service:
-        name: firewalld
-        state: restarted
+        immediate: yes
     - name: Uninstall apache
       yum: 
         name: httpd

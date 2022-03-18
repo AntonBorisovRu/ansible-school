@@ -18,10 +18,7 @@
         service: http
         permanent: yes
         state: enabled
-    - name: Restart firewalld service
-      service:
-        name: firewalld
-        state: restarted
+        immediate: yes
     - name: Create index.html file
       copy:
         content: 'Welcome to my web server'
