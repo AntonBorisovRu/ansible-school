@@ -1,0 +1,25 @@
+---
+- name: Create users with params
+  hosts: webservers
+  remote_user: ansible
+  vars: 
+    - userpassword: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          39643332613233646438356132366439306330366330633630663434616366306631613936393163
+          6535633737666237356332306137343438353463353464320a366538656535383939646565316535
+          33623161366135616161613239363138613864333234333035393337633535363730366537313938
+          6236656435343461390a373736646664616138323866343534326237663637316231383333653061
+          6431
+  tasks:
+    - name: Create users
+      user:
+        name: "{{ item.name }}"
+        comment: "{{ item.name }}@example.com"
+        home: "/home/{{ item.name }}"
+        password: "{{ userpassword | string | password_hash('sha512') }}"
+        state: present
+      loop:
+        - name: Alice
+        - name: Bob
+        - name: Carol
+...
