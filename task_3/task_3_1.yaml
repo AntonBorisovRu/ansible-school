@@ -1,0 +1,9 @@
+---
+- name: Install and configure Apache
+  hosts: webservers
+  remote_user: ansible
+  vars:
+    manager_name: "Anton Borisov"
+  roles:
+    - install-httpd
+...

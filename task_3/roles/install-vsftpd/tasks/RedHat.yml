@@ -1,0 +1,25 @@
+- name: Install vsftpd
+  yum:
+    name: vsftpd
+    state: latest
+- name: Run vsftpd service
+  service:
+    name: vsftpd
+    enabled: true
+    state: started
+- name: Open ftp port
+  firewalld:
+    service: ftp
+    permanent: yes
+    state: enabled
+    immediate: yes
+- name: Install libsemanage
+  yum:
+    name: libsemanage-python
+    state: latest
+- name: Install policycoreutils
+  yum:
+    name: policycoreutils-python
+    state: latest
+
+

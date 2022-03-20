@@ -1,0 +1,29 @@
+---
+# tasks file for install-httpd
+
+- include_tasks: RedHat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Collect httpd -V output
+  command: "/usr/sbin/httpd -V"
+  register: httpd_v_out
+  changed_when: false
+
+- name: Make httpd -V output a single line
+  set_fact:
+    httpd_v: "{{ httpd_v_out.stdout | regex_replace('\\n', ' ') }}"
+  when: not ansible_check_mode
+
+- name: Register httpd-reported facts
+  set_fact:
+    httpd_version: "{{ httpd_v | regex_replace('.*Server version: Apache/([\\d.]+).*', '\\1') }}"
+  when: not ansible_check_mode
+
+- name: Create index.html with Apache version
+  template:
+    src: index.html.j2
+    dest: "/var/www/html/index.html"
+    mode: "0644"
+  when: not ansible_check_mode
+
+

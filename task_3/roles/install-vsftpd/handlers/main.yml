@@ -1,0 +1,6 @@
+---
+# handlers file for install-vsftpd
+- name: restarting vsftpd service
+  service:
+    name: vsftpd
+    state: restarted

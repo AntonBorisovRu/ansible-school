@@ -1,0 +1,15 @@
+- name: Install apache
+  yum:
+    name: httpd
+    state: latest
+- name: Run apache service
+  service:
+    name: httpd
+    enabled: true
+    state: started
+- name: Open http port
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+    immediate: yes

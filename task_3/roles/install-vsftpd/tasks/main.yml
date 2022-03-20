@@ -1,0 +1,35 @@
+---
+# tasks file for install-httpd
+
+- include_tasks: RedHat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: configuring vsftpd instance
+  template:
+    src: vsftpd.conf.j2
+    dest: /etc/vsftpd/vsftpd.conf
+    owner: root
+    group: root
+    mode: 0660
+  notify:
+    - restarting vsftpd service
+
+- name: Create upload dir
+  file:
+    path: /var/ftp/pub/upload
+    state: directory
+    mode: '0755'
+    owner: ftp
+    group: ftp
+  when: vsftpd_anon_upload_enable == True
+
+- name: Configure SElinux to anonymous write access
+  seboolean:
+    name: ftpd_anon_write
+    state: yes
+    persistent: yes
+  when: vsftpd_anon_upload_enable == True
+
+- name: Configure upload folder context
+  shell: semanage fcontext -a -t public_content_rw_t /var/ftp/pub/upload && restorecon -Rvv /var/ftp/pub/upload
+  when: vsftpd_anon_upload_enable == True

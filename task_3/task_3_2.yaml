@@ -1,0 +1,12 @@
+---
+- name: Install and configure vsftpd
+  hosts: webservers
+  remote_user: ansible
+  vars:
+    vsftpd_anon_upload_enable: true
+    vsftpd_anonymous_enable: true
+    vsftpd_write_enable: true
+    manager_name: "Anton Borisov"
+  roles:
+    - install-vsftpd
+...

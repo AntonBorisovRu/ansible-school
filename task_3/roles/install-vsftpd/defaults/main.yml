@@ -1,0 +1,6 @@
+---
+# defaults file for install-vsftpd
+vsftpd_anon_upload_enable: false
+vsftpd_anonymous_enable: false
+vsftpd_write_enable: false
+manager_name: "Unmanaged"
