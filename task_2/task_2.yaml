@@ -18,6 +18,7 @@
         home: "/home/{{ item.name }}"
         password: "{{ userpassword | string | password_hash('sha512') }}"
         state: present
+        update_password: on_create
       loop:
         - name: Alice
         - name: Bob
